@@ -33,9 +33,9 @@ namespace KodelabAssessment1122API
             services.AddDbContext<KodelabAssessmentContext>(opt => opt.UseSqlServer
             (Configuration.GetConnectionString("KodelabAssessmentDB"))
             );
-            services.AddSingleton<IQuestion,QuestionDB>();
-            services.AddSingleton<IAnswer, AnswerDB>();
-            services.AddSingleton<IQuizDB, QuizDB>();
+            services.AddScoped<IQuestion,QuestionDB>();
+            services.AddScoped<IAnswer, AnswerDB>();
+            services.AddScoped<IQuizDB, QuizDB>();
 
         }
 

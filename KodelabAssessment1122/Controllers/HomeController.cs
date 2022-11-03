@@ -24,16 +24,16 @@ namespace KodelabAssessment1122.Controllers
         {
             //KodelabAssessment1122DLL.Services.QuizUpdater.UpdateFromFile();
 
-            //var Answers = await QuizService.GetAllAnswers();
-            //var Questions = await QuizService.GetAllQuestions();
-            //var Quizs = await QuizService.GetAllQuizes();
+            var Answers = await QuizService.GetAllAnswers();
+            var Questions = await QuizService.GetAllQuestions();
+            var Quizs = await QuizService.GetAllQuizes();
 
-            //TakeQuizViewModel model = new TakeQuizViewModel
-            //{
-            //    answers = Answers,
-            //    questions = Questions,
-            //    quizes = Quizs
-            //};
+            TakeQuizViewModel model = new TakeQuizViewModel
+            {
+                answers = Answers,
+                questions = Questions,
+                quizes = Quizs
+            };
 
             return View();
         }

@@ -12,6 +12,11 @@ namespace KodelabAssessment1122API.Data.Repository
     {
         public KodelabAssessmentContext Db { get; set; }
 
+        public QuestionDB(KodelabAssessmentContext _db)
+        {
+            Db = _db;
+        }
+
         public async Task<QuizQuestions> CreateQuiz(QuizQuestions newQuizQustion)
         {
             Db.Add(newQuizQustion);

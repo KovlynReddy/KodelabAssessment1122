@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using KodelabAssessment1122.Services;
+using KodelabAssessment1122DLL.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,11 +12,20 @@ namespace KodelabAssessment1122.Controllers
     public class QuizController : Controller
     {
 
-        public IActionResult TakeQuiz() {
+        public async Task<IActionResult> TakeQuiz() {
 
+            var Answers = await QuizService.GetAllAnswers();
+            var Questions = await QuizService.GetAllQuestions();
+            var Quizs = await QuizService.GetAllQuizes();
 
+            TakeQuizViewModel model = new TakeQuizViewModel
+            {
+                answers = Answers,
+                questions = Questions,
+                quizes = Quizs
+            };
 
-            return View();
+            return View(model);
         }
         
         // GET: QuizController
