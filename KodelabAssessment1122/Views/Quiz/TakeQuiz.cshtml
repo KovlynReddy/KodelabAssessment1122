@@ -62,8 +62,7 @@
                     </div>*@
             }
             <div class="carousel-item " style="height:300px">
-                Submit Test ?
-                <input type="submit" value="Done" class="btn btn-primary" />
+                    Done
             </div>
 
         </div>
@@ -77,10 +76,6 @@
         </a>
     </div>
 
-
-
-
-    <input type="submit" value="Done" class="btn btn-primary" />
     <input id="btnSave" type="button" value="Submit" class="btn btn-primary" />
 </form>
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -110,8 +105,14 @@
                 contentType: 'application/json;charset=utf-8',
                 url: '/Quiz/AnswerQuestionTest',
                 data: JSON.stringify(ans),
-                success: function () { },
-                error: function () { }
+                success: function (results) {
+                    console.log(results);
+                    document.getElementById('form').innerHTML = results.responseText;
+                },
+                error: function (results) {
+                    console.log(results);
+                    document.getElementById('form').innerHTML = results.responseText;
+                }
             });
 
                 //data: {ans: Ans },
