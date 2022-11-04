@@ -35,6 +35,7 @@ namespace KodelabAssessment1122API.Data.Context
 
         public DbSet<QuizAnswers> Answers { get; set; }
 
+        public DbSet<UserAnswers> UserAnswers { get; set; }
 
 
     }

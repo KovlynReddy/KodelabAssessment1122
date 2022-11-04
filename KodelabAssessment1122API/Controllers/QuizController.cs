@@ -1,5 +1,7 @@
 ﻿using KodelabAssessment1122API.Data.Context;
 using KodelabAssessment1122API.Data.Interface;
+using KodelabAssessment1122DLL.DomainModels;
+using KodelabAssessment1122DLL.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,6 +35,30 @@ namespace KodelabAssessment1122API.Controllers
             return Ok(results);
         }
 
+        [HttpPost]
+        [Route("~/api/Quiz/AnswerQuestion")]
+        public async Task<IActionResult> AnswerQuestion([FromBody]CreateUserAnswerDto newAnswer) {
+
+            UserAnswers answer = new UserAnswers
+            {
+                UserGuid = newAnswer.UserGuid,
+                AnswerId = newAnswer.AnswerId,
+                CreatedDateTime = newAnswer.CreatedDateTime,
+                CreatorId = newAnswer.CreatorId,
+                IsCorrect = newAnswer.IsCorrect.ToString(),
+                IsDeleted = newAnswer.IsDeleted,
+                ModelId = newAnswer.ModelId,
+                QuestionId = newAnswer.QuestionId,
+            };
+
+            db.Add(answer);
+
+            db.SaveChanges();
+
+
+            return Ok();
+        }
+
 
         public async Task<IActionResult> UpdateDB() {
 
@@ -59,10 +85,29 @@ namespace KodelabAssessment1122API.Controllers
             return View();
         }
 
-        // GET: QuizController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult GetAllUserAnswers()
         {
-            return View();
+            var allUserAnswers = db.UserAnswers.ToList();
+            var allUserAnswerDtos = new List<CreateUserAnswerDto>();
+
+            foreach (var answer in allUserAnswers)
+            {
+                var AnswerDto = new CreateUserAnswerDto {
+                    UserGuid = answer.UserGuid,
+                    AnswerId = answer.AnswerId,
+                    CreatedDateTime = answer.CreatedDateTime,
+                    CreatorId = answer.CreatorId,
+                    IsCorrect = Convert.ToInt32(answer.IsCorrect),
+                    IsDeleted = answer.IsDeleted,
+                    ModelId = answer.ModelId,
+                    QuestionId = answer.QuestionId,
+                };
+
+                allUserAnswerDtos.Add(AnswerDto);
+            }
+
+            return Ok(allUserAnswerDtos);
         }
 
         // POST: QuizController/Create

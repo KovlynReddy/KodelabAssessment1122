@@ -1,0 +1,41 @@
+﻿@model KodelabAssessment1122DLL.ViewModels.ViewAllResultsViewModel
+
+
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+                Time
+            </th>
+            <th>
+                User
+            </th>
+            <th>
+                Results
+            </th>
+            <th>
+                Total
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.AllResults)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => user.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Results)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Total)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

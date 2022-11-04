@@ -1,71 +1,123 @@
 ﻿@model KodelabAssessment1122DLL.ViewModels.TakeQuizViewModel
 
-@{ 
+@{
     int counter = 1;
 }
+<form id="form" asp-action="SubmitQuiz">
+    @Html.Partial("_QuestionView", Model.questions);
+
+    @Html.Partial("_AnswersView", Model.answers);
+    @Html.Partial("_UserAnswersView", Model.userAnswers);
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            @for (int i = 1; i < (Model.questions.Count - 1 ); i++)
+            @for (int i = 1; i < (Model.questions.Count - 1); i++)
             {
                 <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
             }
         </ol>
         <div class="carousel-inner text-center" style="background-color:lightgray">
             <div class="carousel-item active" style="height:300px">
-               Ready 
-                </div>
-                @foreach (var question in Model.questions)
-                {
-        <div class="carousel-item" style="height:300px">
-            <p>
-
-                @question.question
-            </p>
-            <br />
-            @*<div class="table text-center align-middle" style="width:350px;position:center">
-        <div class="row">*@
-
-            @foreach (var answer in Model.answers.Where(m => m.QuestionId == question.ModelId))
-            {
-                @*<div class="col">*@
-
-                
-
-                @answer.answer
-                @answer.isCorrect
-
-                @:&emsp;
-                @*</div>*@
-                if (counter % 2 == 0)
-                {
-                    <br />
-                    counter++;
-                    counter = 1;
-                }
-                else
-                {
-
-                    counter++;
-                }
-
-            }
-        </div>
-            @*</div>
-            </div>*@
-                }
-
-
+                Ready
             </div>
-            <a class="carousel-control-prev btn btn-secondary" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next btn btn-secondary" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+            @foreach (var question in Model.questions)
+            {
+                <div class="carousel-item" style="height:300px">
+                    <p>
+
+                        @question.question
+                    </p>
+                    <br />
+                    @*<div class="table text-center align-middle" style="width:350px;position:center">
+                        <div class="row">*@
+
+                    @foreach (var answer in Model.answers.Where(m => m.QuestionId == question.ModelId))
+                    {
+                        @*<div class="col">*@
+
+                        @*@Html.RadioButtonFor(m => m.userAnswers.FirstOrDefault(k => k.QuestionId == question.ModelId).AnswerId
+                            , answer.ModelId) @answer.answer*@
+
+                        <input asp-for="@Model.userAnswers.FirstOrDefault(k => k.QuestionId == question.ModelId).SelectedAnswerId" id="@Model.userAnswers.FirstOrDefault(k => k.QuestionId == question.ModelId).SelectedAnswerId" type="radio" name="@question.ModelId" value="@answer.ModelId" />
+                        <label for="@Model.userAnswers.FirstOrDefault(k => k.QuestionId == question.ModelId).SelectedAnswerId">@answer.answer</label>
+
+                        @:&emsp;
+                        @*</div>*@
+                        if (counter % 2 == 0)
+                        {
+                            <br />
+                            counter++;
+                            counter = 1;
+                        }
+                        else
+                        {
+
+                            counter++;
+                        }
+
+                    }
+                </div>
+                @*</div>
+                    </div>*@
+            }
+            <div class="carousel-item " style="height:300px">
+                Submit Test ?
+                <input type="submit" value="Done" class="btn btn-primary" />
+            </div>
+
         </div>
+        <a class="carousel-control-prev btn btn-secondary" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next btn btn-secondary" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 
 
+
+
+    <input type="submit" value="Done" class="btn btn-primary" />
+    <input id="btnSave" type="button" value="Submit" class="btn btn-primary" />
+</form>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+
+  
+        $("#btnSave").click(function () {
+
+            var ans = {};
+            var Ans = "";
+
+            $("#form input[type=radio]:checked").each(function () {
+                var question = $(this).attr("name");
+                var Answer = $(this).attr("value");
+
+                Ans = Ans + " " + question + "." + Answer + "_";
+                
+                console.log(question, Answer);
+            });
+
+            ans.ans = Ans;
+            console.log(JSON.stringify(ans));
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json;charset=utf-8',
+                url: '/Quiz/AnswerQuestionTest',
+                data: JSON.stringify(ans),
+                success: function () { },
+                error: function () { }
+            });
+
+                //data: {ans: Ans },
+
+        });
+
+
+      
+</script>

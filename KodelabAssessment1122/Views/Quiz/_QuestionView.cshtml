@@ -1,0 +1,63 @@
+﻿@model IEnumerable<KodelabAssessment1122DLL.DomainModels.QuizQuestions>
+
+
+<table class="table" hidden>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.quizId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.quizId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
